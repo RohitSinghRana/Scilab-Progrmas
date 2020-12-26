@@ -1,0 +1,62 @@
+noe=zeros(1,10);
+nob=zeros(1,10);
+nomb=zeros(1,10);
+cb=0;
+cmb=0;
+m=1;
+t=0;
+for n=10:10:100
+    for avg=1:50
+    a=round(rand(1,n)*100);
+    a=gsort(a,"g","i") //Sort array using quick sort function
+    b=a;
+    noe(m)=n
+//*********************This loop is for Bubble Sort********************
+    for i=1:n
+        for j=1:n-i
+            cb=cb+1;
+            if a(j)>a(j+1)
+                t=a(j);
+                a(j)=a(j+1);
+                a(j+1)=t;
+            end
+        end
+    end
+//*********************This loop is for modified Bubble Sort***********
+    for i=1:n
+        s=0;
+        for j=1:n-i
+            cmb=cmb+1;
+            if b(j)>b(j+1)
+                t=b(j);
+                b(j)=b(j+1);
+                b(j+1)=t; 
+                s=s+1;
+            end
+        end
+        if(s==0)
+            break
+        end
+    end
+    end
+    nob(m)=cb/50;
+    nomb(m)=cmb/50;
+    cb=0;
+    cmb=0;
+    m=m+1
+end
+plot(noe,nob,'b')
+plot(noe,nomb,'r')
+xlabel('No. of Instances(Input Size)','fontsize','2');
+ylabel('No of Comparision','fontsize','2')
+title('Average Case Analysy of Bubble Sort vs Modified Bubble Sort with Sorted data','fontsize','2','color','blue');
+xgrid(2)
+legend('Bubble Sort','Modified Bubble Sort');
+
+
+
+//Thank You 
+
+//This Code is contributed by Rohit Singh Rana
+
+
