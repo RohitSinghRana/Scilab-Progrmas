@@ -1,0 +1,263 @@
+noe=zeros(1,20); //Array to store no. of iterations
+nocb=zeros(1,20); //Array to store no. of comparisons in bubble sort
+nocmb=zeros(1,20); //Array to store no. of comparisons in modified bubble sort
+noci=zeros(1,20); //Array to store no. of comparisons in insertion sort
+nocmi=zeros(1,20); //Array to store no. of comparisons in modified insertion sort
+nocs=zeros(1,20); //Array to store no. of comparisons in selection sort
+nocq=zeros(1,20); //Array to store no. of comparisons in Quick sort
+nocrq=zeros(1,20); //Array to store no. of comparisons in Randomized Quick sort
+nocm=zeros(1,20); //Array to store no. of comparisons in Merge sort
+
+cp=0;ci=0;cj=0;ca=0;cq=0;cl=0;cd=0;cf=0;t=0;
+m=1;
+for n=5:5:100
+    a=round(rand(1,n)*100);
+    //Here i copied array for all sorting techniques
+    b=a;cb=a;d=a;e=a;f=a;g=a;h=a;
+    noe(m)=n
+//********Bubble Sort Function*******************
+    function [cp]=BubbleSort(cb,n)
+        for i=1:n
+        for j=1:n-i
+            cp=cp+1;
+            if cb(j)>cb(j+1)
+                t=cb(j);
+                cb(j)=cb(j+1);
+                cb(j+1)=t;
+            end
+        end
+    end
+    endfunction
+    
+//**********modified Bubble Sort Function*********
+    function [ci]=ModifiedBubbleSort(b,n)
+        for i=1:n
+            s=0;
+            for j=1:n-i
+                ci=ci+1;
+                if b(j)>b(j+1)
+                    t=b(j);
+                    b(j)=b(j+1);
+                    b(j+1)=t; 
+                    s=s+1;
+                end
+            end
+            if(s==0)
+                break
+            end
+        end
+    endfunction
+
+//******** Insertion Sort Function***************
+    function [cf]=InsertionSort(h,n)
+        for i=2:n
+        index=i;
+        j=i-1;
+        while j>=1
+            cf=cf+1; 
+            if h(index)<h(j) then  
+                t=h(j);
+                h(j)=h(index);
+                h(index)=t;
+                index=j
+            end
+            j=j-1;
+        end
+    end
+    endfunction
+
+//********Modified Insertion Sort Function***************
+    function [ca]=ModifiedInsertionSort(d,n)
+        for i=2:n
+        v=d(i);
+        j=i-1;
+        while j>=1
+            ca=ca+1; 
+            if d(j)>v then  
+                d(j+1)=d(j);
+            else
+                break
+            end
+            j=j-1;
+        end
+        d(j+1)=v;
+    end
+    endfunction
+
+//*********Selection Sort Function*********
+    function [cl]=SelectionSort(f,n)
+        for i=1:n
+            min=i
+            for j=i:n  
+                cl=cl+1;
+                if f(min)>f(j) then
+                    min=j;
+                end
+            end
+        t=f(i);
+        f(i)=f(min);
+        f(min)=t;
+        end 
+    endfunction
+
+//*************Quick Sort Function starts from here***************
+    t=0;mi=0;k=0;a1=0;c=0;
+    q=n;p=1;
+    //Partition of Quick Sort Function Start from here
+    function [mi,arr1,count]=partition(a,p,q)
+    i=p;
+    x = a(p);   // Taking Pivot as first element
+    for k=i+1:q
+        c=c+1;
+        if a(k) <= x then
+            i = i + 1
+            t=a(i);
+            a(i)=a(k);
+            a(k)=t;
+        end
+    end
+    t=a(p);
+    a(p)=a(i);
+    a(i)=t;
+    mi=i;
+    arr1=a
+    count=c
+    endfunction
+    //Quick Sort Fucntion Called here
+    function [a1,c1]=QS(a,p,q)
+    if p < q then
+        [mi,a,c]=partition(a,p,q);  //call partition function
+        [a,c]=QS(a, p , mi-1);
+        [a,c]=QS(a , mi+1 , q);
+    end
+    a1=a;
+    c1=c;
+    endfunction
+//**********************End of quic SOrt***************************
+//*****************************************************************
+//******************Randomized Quick Sort starts from here*********
+    t=0;mj=0;k=0;a1=0;c1=0;
+    q=n;p=1;
+    //Partition Function of Randomized Quick Sort Starts from here
+function [mj,arr1,c1]=rpartition(e,p,q)
+    i=p;
+    r=round(rand()*(q-p)+p) // Taking Pivot as random
+    x = e(p);   
+    for k=i+1:q
+        if e(k) <= x then
+            c1=c1+1;
+            i = i + 1
+            t=e(i);
+            e(i)=e(k);
+            e(k)=t;
+        end
+    end
+    t=e(p);
+    e(p)=e(i);
+    e(i)=t;
+    mj=i;
+    arr1=e
+endfunction
+
+//Quick Sort Function Start from here
+function [e1,c1]=RQS(e,p,q)
+    if p < q then
+        [mj,e,c1]=rpartition(e,p,q);
+        [e,c1]=RQS(e, p , mj-1);
+        [e,c1]=RQS(e , mj+1 , q);
+    end
+    e1=e;
+endfunction
+//**********************End of Randomized Quick Sort SOrt***********
+//*****************************************************************
+//****************Merge Sort starts from here************************
+    cd=0;
+    function [g,cd] = mergesort (g)
+        n = length (g);
+        if ( n > 1 ) then
+        m = floor (n/2);
+        p = n-m;
+        [x1,cd] = mergesort ( g(1:m) );
+        [x2,cd] = mergesort ( g(m+1:n)  );
+        [g,cd] = merge ( x1 , x2);
+        end
+    endfunction
+    
+    function [g,cd] = merge ( x1 , x2 )
+        n1 = length (x1);
+        n2 = length (x2);
+        n = n1 + n2;
+        g = [];
+        i = 1
+        j = 1
+        k = 1
+        while(j<=n1 && k<=n2)
+                cd=cd+1;
+              if x1(j)>=x2(k) 
+                 g(i)=x2(k);
+                  k=k+1;
+                 i=i+1;
+            elseif x1(j)<x2(k) 
+                 g(i)=x1(j);
+                 j=j+1;
+                 i=i+1;
+            end
+        end            
+        if (j > n1) then
+               g(i:n) = x2(k:n2);
+        else
+            g(i:n) = x1(j:n1);
+        end
+    endfunction
+//**********************End of Merge Quick Sort SOrt***************
+//*****************************************************************
+    [cp]=BubbleSort(cb,n)   //Calling Bubble Sort
+    [ci]=ModifiedBubbleSort(b,n) //Calling Modified Bubble Sort
+    [ca]=ModifiedInsertionSort(d,n) //Calling Insertion Sort
+    [cl]=SelectionSort(f,n) //Calling Selection Sort Function
+    [a,c]=QS(a,p,q)         //Calling Quick Sort Function
+    [e,c1]=RQS(e,p,q)        //Calling Randomized Quick Sort
+    [g,cd]=mergesort(g);    //Calling Merge Sort
+    [cf]=InsertionSort(f,n)
+//Storing No of comparision in arrays
+    nocb(m)=cp;
+    nocmb(m)=ci;
+    noci(m)=cf;
+    nocmi(m)=ca; 
+    nocs(m)=cl;
+    nocq(m)=c
+    nocrq(m)=c1;
+    nocm(m)=cd;
+    cp=0;
+    ci=0;
+    ca=0;
+    cl=0;
+    cq=0;
+    cj=0;
+    c=0;
+    c1=0;
+    cf=0;
+    m=m+1;
+end
+//plotting Data into Graph
+plot2d(noe,nocb,9);
+plot2d(noe,nocmb,2);
+plot2d(noe,noci,5)
+plot2d(noe,nocmi,7);
+plot2d(noe,nocs,4);
+plot2d(noe,nocq,1);
+plot2d(noe,nocrq,6);
+plot2d(noe,nocm,3)
+xlabel('Number of Instances','fontsize','2');
+ylabel('No of Comparision to sort an array','fontsize','2');
+title('Performance Analysis of Sorting algorithms with randomized data','fontsize','3','color','blue');
+xgrid(2)
+legends(['Bubble Sort','Modified Bubble Sort','Insertion Sort','Modified Insertion Sort','Selection Sort','Quick Sort','Randomized Quick Sort','Merge Sort'],[9,2,5,7,4,1,6,3],opt="ul")
+
+
+
+
+//Thank You 
+
+
+//This Code is contributed by Rohit Singh Rana
